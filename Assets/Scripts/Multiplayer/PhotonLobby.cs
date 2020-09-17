@@ -61,9 +61,4 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         Debug.Log("you are now in a room");
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
