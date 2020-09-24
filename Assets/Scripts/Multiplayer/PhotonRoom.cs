@@ -90,8 +90,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        currectScene = scene.buildIndex;
-        if (currectScene == MultiplayerScene)
+        SceneManager.LoadScene(MultiplayerScene);
+        if (SceneManager.GetActiveScene().buildIndex == MultiplayerScene)
         {
             CreatePlayer();
         }
@@ -101,7 +101,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private void CreatePlayer()
 
     {/// needs prefab name
-        PhotonNetwork.Instantiate("", transform.position, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("Player", transform.position, Quaternion.identity, 0);
 
     }
 
