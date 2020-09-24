@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .15f);
+        transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .2f);
         transform.LookAt(target, Vector3.up);
     }
 }
