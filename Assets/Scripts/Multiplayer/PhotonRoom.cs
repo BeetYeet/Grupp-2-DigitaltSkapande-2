@@ -40,12 +40,15 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             }
         }
 
-        DontDestroyOnLoad(this.gameObject);
-        PV = GetComponent<PhotonView>();
+        
     }
 
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
+        PV = GetComponent<PhotonView>();
+        PhotonNetwork.AddCallbackTarget(this);
+        SceneManager.sceneLoaded += OnSceneFinishedLoading;
 
     }
 
@@ -54,9 +57,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         //subscribe to functions
         base.OnEnable();
-        PhotonNetwork.AddCallbackTarget(this);
-        SceneManager.sceneLoaded += OnSceneFinishedLoading;
-
+        
     }
     public override void OnDisable()
     {
@@ -90,7 +91,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        SceneManager.LoadScene(MultiplayerScene);
+        
         if (SceneManager.GetActiveScene().buildIndex == MultiplayerScene)
         {
             CreatePlayer();
