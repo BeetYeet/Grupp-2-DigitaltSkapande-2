@@ -70,8 +70,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("now Inside a room");
-        if (!PhotonNetwork.IsMasterClient)
-            return;
         StartGame();
 
         /* photonPlayers = PhotonNetwork.PlayerList;
