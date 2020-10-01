@@ -22,7 +22,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public int playersInRoom;
     public int myNumberInRoom;
-    public int playersInGame;
+    
 
 
     private void Awake()
