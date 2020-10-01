@@ -47,7 +47,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         DontDestroyOnLoad(this.gameObject);
         PV = GetComponent<PhotonView>();
-        PhotonNetwork.AddCallbackTarget(this);
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
 
     }
@@ -57,6 +56,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         //subscribe to functions
         base.OnEnable();
+        PhotonNetwork.AddCallbackTarget(this);
 
     }
     public override void OnDisable()
@@ -70,7 +70,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         base.OnJoinedRoom();
         Debug.Log("now Inside a room");
-        
+        StartGame();
 
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
@@ -81,26 +81,17 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
     private void Update()
     {
-        void StartGame()
-        {
-            if (playersInRoom == 2)
-            {
-                Debug.Log("Loading Level");
 
-                PhotonNetwork.LoadLevel(MultiplayerScene);
-            }
-            else if (playersInRoom == 1)
-            {
-                Debug.Log("waiting on enemy");
-            }
-            else
-                Debug.Log("there is " + playersInRoom + " and its too many");
-
-        }
     }
-    
 
 
+    void StartGame()
+    {
+        Debug.Log("Loading Level");
+
+        PhotonNetwork.LoadLevel(MultiplayerScene);
+
+    }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
 
