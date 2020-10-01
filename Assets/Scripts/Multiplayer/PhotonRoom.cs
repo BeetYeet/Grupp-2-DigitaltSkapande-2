@@ -16,14 +16,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int currectScene;
     public int MultiplayerScene;
 
-    /*
-    // Player info
+
+    Player info;
     Player[] photonPlayers;
 
     public int playersInRoom;
     public int myNumberInRoom;
     public int playersInGame;
-    */
+
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             }
         }
 
-        
+
     }
 
     void Start()
@@ -57,7 +57,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         //subscribe to functions
         base.OnEnable();
-        
+
     }
     public override void OnDisable()
     {
@@ -72,24 +72,35 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         Debug.Log("now Inside a room");
         StartGame();
 
-        /* photonPlayers = PhotonNetwork.PlayerList;
-          playersInRoom = photonPlayers.Length;
-         myNumberInRoom = playersInRoom;
-         PhotonNetwork.NickName = myNumberInRoom.ToString();
-         */
+        photonPlayers = PhotonNetwork.PlayerList;
+        playersInRoom = photonPlayers.Length;
+        myNumberInRoom = playersInRoom;
+        PhotonNetwork.NickName = myNumberInRoom.ToString();
+
 
     }
 
     void StartGame()
     {
-        Debug.Log("Loading Level");
-        PhotonNetwork.LoadLevel(MultiplayerScene);
+        if (playersInRoom == 2)
+        {
+            Debug.Log("Loading Level");
+
+            PhotonNetwork.LoadLevel(MultiplayerScene);
+        }
+        else if (playersInRoom == 1)
+        {
+            Debug.Log("waiting on enemy");
+        }
+        else
+            Debug.Log("there is " + playersInRoom + " and its too many");
+
     }
 
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        
+
         if (SceneManager.GetActiveScene() == scene)
         {
             CreatePlayer();
@@ -103,5 +114,4 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PhotonNetwork.Instantiate("Player", transform.position, Quaternion.identity, 0);
 
     }
-
 }
