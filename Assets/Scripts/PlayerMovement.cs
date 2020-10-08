@@ -4,8 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon;
 using UnityEngine.InputSystem;
-
-
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
@@ -20,6 +19,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         inputActions = new PlayerInputActions();
         inputActions.MainActionMap.Move.performed += Move_performed;
         pView = GetComponent<PhotonView>();
+        GetTarget();
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+
+    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        OnJoinedRoom();
     }
 
     private void Move_performed(InputAction.CallbackContext obj)
@@ -29,15 +35,24 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        GetTarget();
+    }
+
+    public void GetTarget()
+    {
         players = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < players.Length; i++)
         {
             if (!players[i].GetComponent<PhotonView>().IsMine)
             {
                 target = players[i].transform;
+                Debug.Log("Found enemy");
+                return;
             }
         }
+        Debug.Log("No enemy found");
     }
+
 
     private void OnEnable()
     {
