@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    PhotonView view;
+    public PhotonView view;
 
     public PlayerMovement movement;
 
