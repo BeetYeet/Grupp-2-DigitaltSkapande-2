@@ -94,12 +94,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-
         if (SceneManager.GetActiveScene() == scene)
         {
             CreatePlayer();
         }
-
     }
 
     private void CreatePlayer()
