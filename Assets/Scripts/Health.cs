@@ -43,7 +43,6 @@ public class Health : MonoBehaviour
             isBlocking = true;
         if (gamePad.sKey.wasPressedThisFrame)
             RegenerateHealth();
-
         if (gamePad.aKey.wasPressedThisFrame)
             TakeDamage(1);
 

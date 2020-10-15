@@ -523,5 +523,5 @@ MonoBehaviour:
   parryDamageMultiplier: 0.1
   parryTimer: 0
   parryThreshHold: 0
-  startStaggerTime: 0
+  startStaggerTime: 3
   canMove: 1
