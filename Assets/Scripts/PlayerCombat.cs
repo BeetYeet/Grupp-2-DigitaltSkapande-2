@@ -14,7 +14,7 @@ public class PlayerCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = maxHealth;
         playerController = GetComponent<PlayerController>();
     }
 
