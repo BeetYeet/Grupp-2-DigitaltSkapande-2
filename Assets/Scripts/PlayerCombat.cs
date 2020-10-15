@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Photon.Realtime;
 using Photon.Pun;
 
@@ -8,9 +9,12 @@ public class PlayerCombat : MonoBehaviour
 {
     public float maxHealth, health;
     PlayerController playerController;
+    public HitBox hitBox;
+    
     // Start is called before the first frame update
     void Start()
     {
+        
         playerController = GetComponent<PlayerController>();
     }
 
@@ -27,6 +31,12 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        var mouse = Mouse.current;
+        if (mouse == null)
+            return;
+        if (mouse.leftButton.wasPressedThisFrame)
+        {
+            DoDamgeToPlayer(10, hitBox.target.GetComponent<PhotonView>());
+        }
     }
 }
