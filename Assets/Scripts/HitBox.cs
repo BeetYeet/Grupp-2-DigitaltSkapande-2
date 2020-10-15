@@ -6,7 +6,7 @@ using Photon.Pun;
 public class HitBox : MonoBehaviour
 {
     public GameObject target = null;
-    
+    public bool inBox = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +21,12 @@ public class HitBox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.GetComponent<PhotonView>().IsMine)
-            target = other.gameObject;
+            inBox = true;
 
     }
     private void OnTriggerExit(Collider other)
     {
         if (!other.GetComponent<PhotonView>().IsMine)
-            target = null;
+            inBox = false;
     }
 }

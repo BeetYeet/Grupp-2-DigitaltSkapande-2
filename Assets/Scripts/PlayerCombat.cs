@@ -34,9 +34,9 @@ public class PlayerCombat : MonoBehaviour
         var mouse = Mouse.current;
         if (mouse == null)
             return;
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (mouse.leftButton.wasPressedThisFrame && hitBox.inBox)
         {
-            DoDamgeToPlayer(10, hitBox.target.GetComponent<PhotonView>());
+            DoDamgeToPlayer(10, playerController.movement.target.GetComponent<PhotonView>());
         }
     }
 }
