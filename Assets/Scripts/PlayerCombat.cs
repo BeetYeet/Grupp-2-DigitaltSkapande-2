@@ -10,7 +10,7 @@ public class PlayerCombat : MonoBehaviour
     public float maxHealth, health;
     PlayerController playerController;
     public HitBox hitBox;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +20,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void DoDamgeToPlayer(float dmg, PhotonView player)
     {
-        playerController.view.RPC("DoDamage", RpcTarget.All, dmg, player);
+        player.RPC("DoDamage", RpcTarget.All, dmg);
     }
     [PunRPC]
-    void DoDamage(float dmg, PhotonView photonView)
+    public void DoDamage(float dmg)
     {
         health = Mathf.Max(0, health - dmg);
     }
@@ -31,6 +31,8 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health == 0)
+            Debug.LogError("YOUR DEAD!");
         var mouse = Mouse.current;
         if (mouse == null)
             return;
