@@ -4,30 +4,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEditor;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public float maxHealth, health, weaponRange;
+    public float weaponRange;
     PlayerController playerController;
-    public HitBox hitBox;
+    Health health;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
+        health = GetComponent<Health>();
         playerController = GetComponent<PlayerController>();
     }
 
-    public void DoDamgeToPlayer(float dmg, PhotonView player)
+    private void FixedUpdate()
     {
-        player.RPC("DoDamage", RpcTarget.All, dmg);
+        health.SyncHealth(playerController.view);   
     }
-    [PunRPC]
-    public void DoDamage(float dmg)
-    {
-        health = Mathf.Max(0, health - dmg);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -35,10 +30,12 @@ public class PlayerCombat : MonoBehaviour
         var mouse = Mouse.current;
         if (mouse == null)
             return;
+        if (mouse.rightButton.wasReleasedThisFrame)
+            health.DoDamage(3, 1,playerController.view);
         if (mouse.leftButton.wasPressedThisFrame && Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
         {
             Debug.LogWarning("clicked");
-            DoDamgeToPlayer(10, playerController.movement.target.GetComponent<PhotonView>());
+            health.DoDamage(5, 1, playerController.movement.target.GetComponent<PhotonView>());
         }
     }
 }

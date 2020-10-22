@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Realtime;
+using Photon.Pun.UtilityScripts;
+using Photon.Pun;
+using Photon;
+using UnityEditor.ShaderGraph.Internal;
 
 public class Health : MonoBehaviour
 {
@@ -30,27 +35,29 @@ public class Health : MonoBehaviour
     public float startStaggerTime;
     float staggerTime;
     public bool canMove = true;
+    
 
+    
 
     private void Start()
     {
         currentHealth = startHealth;
     }
-    void Update()
+    public void SyncHealth(PhotonView photonView)
     {
+
+        photonView.RPC("RegenerateHealth", RpcTarget.All);
+    }
+    void FixedUpdate()
+    {
+        
         currentHealth = Mathf.Round(currentHealth * 100) / 100;
 
-        var gamePad = Keyboard.current;
-        if (gamePad.spaceKey.wasPressedThisFrame)
-            isBlocking = true;
-        if (gamePad.sKey.wasPressedThisFrame)
-            RegenerateHealth();
-        if (gamePad.aKey.wasPressedThisFrame)
-            TakeDamage(1);
+       
 
         if (isBlocking == true)
         {
-            parryTimer += Time.deltaTime;
+            parryTimer += (float)PhotonNetwork.Time;
         }
         else
         {
@@ -59,13 +66,13 @@ public class Health : MonoBehaviour
 
         // starts the regeneration time
         if (timeUntilBlockRegen > 0)
-            timeUntilBlockRegen -= Time.deltaTime;
+            timeUntilBlockRegen -= (float)PhotonNetwork.Time;
         else
             timeUntilBlockRegen = 0;
 
         //Regenerates Block
         if (blockDamage > 0 && timeUntilBlockRegen <= 0)
-            blockDamage -= blockRegenSpeed * Time.deltaTime;
+            blockDamage -= blockRegenSpeed * (float)PhotonNetwork.Time;
         else if (blockDamage < 0)
             blockDamage = 0;
 
@@ -77,7 +84,7 @@ public class Health : MonoBehaviour
         // Controlls the time
         if (staggerTime > 0)
         {
-            staggerTime -= Time.deltaTime;
+            staggerTime -= (float)PhotonNetwork.Time;
         }
         else
         {
@@ -86,7 +93,7 @@ public class Health : MonoBehaviour
 
         // Regenerates Health
         if (regeneratableHealth > currentHealth)
-            regeneratableHealth -= regenHealthTickDown * Time.deltaTime;
+            regeneratableHealth -= regenHealthTickDown * (float)PhotonNetwork.Time;
         else
             regeneratableHealth = currentHealth;
 
@@ -96,6 +103,15 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void Block()
+    {
+        isBlocking = true;
+    }
+
+    public void DoDamage(float dmg, float blockMulitpier, PhotonView apponent)
+    {
+        apponent.RPC("TakeDamage", RpcTarget.All, dmg, blockMulitpier);
+    }
     private void Stagger()
     {
         isBlocking = false;
@@ -107,7 +123,8 @@ public class Health : MonoBehaviour
     {
         Debug.Log("this character is dead");
     }
-    public void RegenerateHealth()
+    [PunRPC]
+    void RegenerateHealth()
     {
         if (currentHealth < regeneratableHealth)
         {
@@ -115,8 +132,8 @@ public class Health : MonoBehaviour
             currentHealth += regeneratableHealthMultiplier * missingHealth;
         }
     }
-
-    public void TakeDamage(float damage, float blockDamageMultiplier = 1)
+    [PunRPC]
+    void TakeDamage(float damage, float blockDamageMultiplier = 1)
     {
         if (isBlocking == false)
         {

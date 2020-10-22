@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 846902016336743446}
   - component: {fileID: 3965749193331808024}
   - component: {fileID: -1040955000580444661}
+  - component: {fileID: 2372663561703912023}
   - component: {fileID: -1727858728183793619}
   m_Layer: 0
   m_Name: Player
@@ -77,10 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88c704bc92e76143beaff9078e537e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  health: 0
   weaponRange: 5
-  hitBox: {fileID: 0}
 --- !u!114 &-1040955000580444661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +102,33 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &2372663561703912023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846902016336743440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f498be972fdd447a3c8e2596c6d8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 10
+  startHealth: 10
+  regeneratableHealth: 0
+  regenHealthTickDown: 0.5
+  regeneratableHealthMultiplier: 0.15
+  timeUntilRegenStart: 0
+  blockRegenSpeed: 0.5
+  blockDamageUntilStagger: 10
+  blockDamage: 0
+  isBlocking: 0
+  parryDamageMultiplier: 0.1
+  parryTimer: 0
+  parryThreshHold: 0.2
+  startStaggerTime: 0
+  canMove: 1
 --- !u!114 &-1727858728183793619
 MonoBehaviour:
   m_ObjectHideFlags: 0
