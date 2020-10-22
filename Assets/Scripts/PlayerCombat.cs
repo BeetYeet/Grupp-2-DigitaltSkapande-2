@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public float maxHealth, health;
+    public float maxHealth, health, weaponRange;
     PlayerController playerController;
     public HitBox hitBox;
 
@@ -31,12 +31,11 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health == 0)
-            Debug.LogError("YOUR DEAD!");
+        
         var mouse = Mouse.current;
         if (mouse == null)
             return;
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (mouse.leftButton.wasPressedThisFrame && Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
         {
             Debug.LogWarning("clicked");
             DoDamgeToPlayer(10, playerController.movement.target.GetComponent<PhotonView>());
