@@ -38,6 +38,8 @@ public class Health : MonoBehaviour
     }
     void Update()
     {
+        currentHealth = Mathf.Round(currentHealth * 100) / 100;
+
         var gamePad = Keyboard.current;
         if (gamePad.spaceKey.wasPressedThisFrame)
             isBlocking = true;
