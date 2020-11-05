@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         animationhandle(moveVector);
         if (pView.IsMine)
         {
-            transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .2f);
+            transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .1f);
         }
         transform.LookAt(target, Vector3.up);
     }

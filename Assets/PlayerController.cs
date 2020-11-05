@@ -14,10 +14,6 @@ public class PlayerController : MonoBehaviour
     {
         movement = GetComponent<PlayerMovement>();
         view = GetComponent<PhotonView>();
-    }
-
-    void Start()
-    {
         if (!view.IsMine)
         {
             Destroy(transform.GetChild(0).GetComponent<Camera>());
