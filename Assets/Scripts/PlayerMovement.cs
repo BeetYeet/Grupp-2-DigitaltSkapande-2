@@ -14,9 +14,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private PlayerInputActions inputActions;
     [SerializeField] Animator animator;
     private Vector2 moveVector;
+    private ViewBob viewBob;
 
     void Awake()
     {
+        viewBob = GetComponentInChildren<ViewBob>();
         inputActions = new PlayerInputActions();
         inputActions.MainActionMap.Move.performed += Move_performed;
         pView = GetComponent<PhotonView>();
@@ -83,6 +85,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         if (pView.IsMine)
         {
             transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .1f);
+            viewBob.moving = moveVector.magnitude > .2f;
+            viewBob.moveVectorX = moveVector.x;
         }
         transform.LookAt(target, Vector3.up);
     }
@@ -90,7 +94,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // afred om du kollar så if(look) cringe;
     private void animationhandle(Vector3 Vectormove)
     {
-        if(Vectormove.x < 0)
+        if (Vectormove.x < 0)
         {
             animator.SetBool("Forward", false);
             animator.SetBool("Backwards", false);
@@ -104,14 +108,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             animator.SetBool("Left", true);
             animator.SetBool("Right", false);
         }
-        else if(Vectormove.y > 0)
+        else if (Vectormove.y > 0)
         {
             animator.SetBool("Forward", true);
             animator.SetBool("Backwards", false);
             animator.SetBool("Left", false);
             animator.SetBool("Right", false);
         }
-        else if(Vectormove.y < 0)
+        else if (Vectormove.y < 0)
         {
             animator.SetBool("Forward", false);
             animator.SetBool("Backwards", true);
