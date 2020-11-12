@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public PhotonView pView;
     private GameObject[] players;
     private PlayerInputActions inputActions;
-    [SerializeField] Animator animator;
+    public Animator animator;
     private Vector2 moveVector;
 
     void Awake()
@@ -90,41 +90,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     // afred om du kollar så if(look) cringe;
     private void animationhandle(Vector3 Vectormove)
     {
-        if(Vectormove.x < 0)
-        {
-            animator.SetBool("Forward", false);
-            animator.SetBool("Backwards", false);
-            animator.SetBool("Left", false);
-            animator.SetBool("Right", true);
-        }
-        else if (Vectormove.x > 0)
-        {
-            animator.SetBool("Forward", false);
-            animator.SetBool("Backwards", false);
-            animator.SetBool("Left", true);
-            animator.SetBool("Right", false);
-        }
-        else if(Vectormove.y > 0)
-        {
-            animator.SetBool("Forward", true);
-            animator.SetBool("Backwards", false);
-            animator.SetBool("Left", false);
-            animator.SetBool("Right", false);
-        }
-        else if(Vectormove.y < 0)
-        {
-            animator.SetBool("Forward", false);
-            animator.SetBool("Backwards", true);
-            animator.SetBool("Left", false);
-            animator.SetBool("Right", false);
-        }
-        else
-        {
-            animator.SetBool("Forward", false);
-            animator.SetBool("Backwards", false);
-            animator.SetBool("Left", false);
-            animator.SetBool("Right", false);
-        }
+        float Yvalue = Mathf.Lerp(animator.GetFloat("Forward"), Vectormove.y, Time.deltaTime * 8.5f);
+        float Xvalue = Mathf.Lerp(animator.GetFloat("Right"), Vectormove.x, Time.deltaTime * 8.5f);
+        animator.SetFloat("Forward", Yvalue);
+        animator.SetFloat("Right", Xvalue);
 
     }
 }
