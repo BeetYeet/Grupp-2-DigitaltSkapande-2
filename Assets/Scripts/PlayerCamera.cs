@@ -5,10 +5,19 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [Header("Following")]
     public float movementSmoothness = 0.2f;
     public float rotationSpeed = 5f;
     public float lookaheadPos = 2;
     public float lookaheadRot = 2;
+
+    [Header("View Bob")]
+    public float followScale = 0.1f;
+    public Vector2 bobScale = new Vector2(1, 1);
+    public float degreesPerSecond = 90;
+    public float angleCutoff = 90;
+
+    private ViewBob bob;
 
     private Vector3 defaultPosition;
     private Quaternion defaultRotation;
@@ -20,6 +29,12 @@ public class PlayerCamera : MonoBehaviour
 
     void Start()
     {
+        bob = GetComponentInChildren<ViewBob>();
+        bob.followScale = followScale;
+        bob.bobScale = bobScale;
+        bob.degreesPerSecond = degreesPerSecond;
+        bob.angleCutoff = angleCutoff;
+
         defaultPosition = transform.localPosition;
         defaultRotation = transform.localRotation;
         player = transform.parent;
