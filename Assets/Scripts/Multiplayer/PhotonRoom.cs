@@ -22,7 +22,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public int playersInRoom;
     public int myNumberInRoom;
-    
+
 
 
     private void Awake()
@@ -47,8 +47,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         DontDestroyOnLoad(this.gameObject);
         PV = GetComponent<PhotonView>();
-        SceneManager.sceneLoaded += OnSceneFinishedLoading;
-
     }
 
 
@@ -57,7 +55,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //subscribe to functions
         base.OnEnable();
         PhotonNetwork.AddCallbackTarget(this);
-
+        SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
     public override void OnDisable()
     {
@@ -76,21 +74,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
         PhotonNetwork.NickName = myNumberInRoom.ToString();
-
-
     }
     private void Update()
     {
-
     }
 
 
     void StartGame()
     {
         Debug.Log("Loading Level");
-
         PhotonNetwork.LoadLevel(MultiplayerScene);
-
     }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
@@ -99,11 +92,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             CreatePlayer();
         }
     }
-
     private void CreatePlayer()
-
-    {/// needs prefab name
+    {
+        // needs prefab name
         PhotonNetwork.Instantiate("Player", transform.position, Quaternion.identity, 0);
-
     }
 }

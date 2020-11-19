@@ -10,6 +10,7 @@ public class PlayerCamera : MonoBehaviour
     public float rotationSpeed = 5f;
     public float lookaheadPos = 2;
     public float lookaheadRot = 2;
+    public float lookaheadRotDistanceCutoff = 2f;
 
     [Header("View Bob")]
     public float followScale = 0.1f;
@@ -54,6 +55,15 @@ public class PlayerCamera : MonoBehaviour
             float angle;
             Quaternion.FromToRotation(lastPlayerRot * Vector3.forward, player.rotation * Vector3.forward).ToAngleAxis(out angle, out axis);
             angle *= lookaheadRot / Time.deltaTime;
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            if (playerMovement.target != null)
+            {
+                float dist = Vector3.Distance(player.position, playerMovement.target.position);
+                if (dist > lookaheadRotDistanceCutoff)
+                    angle /= dist;
+                else
+                    angle /= lookaheadRotDistanceCutoff;
+            }
             playerRotationVelocity = Quaternion.AngleAxis(angle, axis);
         }
         transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocityPos, movementSmoothness);
@@ -61,6 +71,8 @@ public class PlayerCamera : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Mathf.Clamp01(Time.deltaTime * rotationSpeed));
         transform.rotation *= playerRotationVelocity;
+
+        transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.up);
 
         lastPlayerPos = player.position;
         lastPlayerRot = player.rotation;

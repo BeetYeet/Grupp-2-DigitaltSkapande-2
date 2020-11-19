@@ -8,20 +8,33 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
+    public float moveSpeed = 3f;
     public Transform target;
     public PhotonView pView;
-    private GameObject[] players;
-    private PlayerInputActions inputActions;
     public Animator animator;
     private Vector2 moveVector;
     private ViewBob viewBob;
+    private GameObject[] players;
+    private PlayerInputActions inputActions;
+    private float smoothAnimX;
+    private float smoothAnimY;
+    private bool refreshLook = true;
 
     void Awake()
     {
-        viewBob = GetComponentInChildren<ViewBob>();
-        inputActions = new PlayerInputActions();
-        inputActions.MainActionMap.Move.performed += Move_performed;
         pView = GetComponent<PhotonView>();
+        if (pView.IsMine)
+        {
+            name = "Current Player";
+            viewBob = GetComponentInChildren<ViewBob>();
+            inputActions = new PlayerInputActions();
+            inputActions.MainActionMap.Move.performed += Move_performed;
+        }
+        else
+        {
+            name = "Current Enemy Player";
+            Destroy(GetComponentInChildren<PlayerCamera>().gameObject);
+        }
         GetTarget();
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
@@ -29,13 +42,23 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         OnJoinedRoom();
-        StartCoroutine(RefreshPlayerLook());
+        StartCoroutine(AquireTarget());
     }
 
-    IEnumerator RefreshPlayerLook()
+    public IEnumerator AquireTarget()
     {
-        yield return new WaitForSeconds(.5f);
-        GetTarget();
+        float timer = 0f;
+        while (!target && timer < 10f)
+        {
+            yield return new WaitForSecondsRealtime(0.5f);
+            timer += 0.5f;
+            GetTarget();
+        }
+        if (timer >= 10f)
+        {
+            // Timed out, not good :(
+            Debug.LogError(name + " couldn't find another player, something is really wrong...");
+        }
     }
 
     private void Move_performed(InputAction.CallbackContext obj)
@@ -57,48 +80,65 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             {
                 target = players[i].transform;
                 players[i].GetComponent<PlayerMovement>().target = transform;
-                Debug.Log("Found enemy");
+                Debug.Log(name + ": Found enemy");
+                refreshLook = true;
                 return;
             }
         }
-        Debug.Log("No enemy found");
+        Debug.Log(name + ": No enemy found");
     }
 
 
-    private void OnEnable()
+    public override void OnEnable()
     {
-        inputActions.Enable();
+        base.OnEnable();
+        if (inputActions != null)
+            inputActions.Enable();
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
-        inputActions.Disable();
+        base.OnDisable();
+        if (inputActions != null)
+            inputActions.Disable();
     }
 
     void FixedUpdate()
     {
     }
 
+
     private void Update()
     {
-        animationhandle(moveVector);
+        HandleAnimations(moveVector);
         if (pView.IsMine)
         {
-            transform.Translate(new Vector3(moveVector.x, 0f, moveVector.y) * .1f);
-            viewBob.moving = moveVector.magnitude > .2f;
+            transform.Translate(moveVector.ToXZ() * moveSpeed * Time.deltaTime);
+            viewBob.moving = moveVector.sqrMagnitude > 0.04f; // deadzone på 0.2 (0.2*0.2=0.04)
             viewBob.moveVectorX = moveVector.x;
         }
-        transform.LookAt(target, Vector3.up);
+
+        if (PhotonRoom.room.playersInRoom > 1)
+        {
+            GetTarget();
+        }
+
+        if (refreshLook)
+            if (target)
+                transform.LookAt(target, Vector3.up);
+            else
+            {
+                refreshLook = false;
+                Debug.LogWarning("Look Target unassigned");
+            }
     }
 
-    // afred om du kollar så if(look) cringe;
-    private void animationhandle(Vector3 Vectormove)
+    // NIschlas om du kollar så if(change back) sadge;
+    private void HandleAnimations(Vector3 moveVector)
     {
-        float Yvalue = Mathf.Lerp(animator.GetFloat("Forward"), Vectormove.y, Time.deltaTime * 8.5f);
-        float Xvalue = Mathf.Lerp(animator.GetFloat("Right"), Vectormove.x, Time.deltaTime * 8.5f);
+        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y, ref smoothAnimX, .1f);
+        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x, ref smoothAnimY, .1f);
         animator.SetFloat("Forward", Yvalue);
         animator.SetFloat("Right", Xvalue);
-
-
     }
 }
