@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-8627869865982209796
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 7b797ff083a48bc4b803009d89b74925
+  m_EffectName: Attenuation
+  m_MixLevel: 10e8694c1e8b87241ba911b1cfdd403e
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &-8167707002603913443
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 4d6833c1c22a60c43b736b8238ec6c3a
+  m_EffectName: Attenuation
+  m_MixLevel: a171a86db1c2404469252782abf2ea47
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -21,6 +49,8 @@ AudioMixerController:
   m_AudioMixerGroupViews:
   - guids:
     - 7efa4ffd746cd3642b079f8db551c2a9
+    - 2c18cbeb54a646241993708248862b7b
+    - 1b8c70daa7f76ed4eaa553c7cf9904b6
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -33,7 +63,9 @@ AudioMixerGroupController:
   m_Name: Master
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 7efa4ffd746cd3642b079f8db551c2a9
-  m_Children: []
+  m_Children:
+  - {fileID: 5768416103957944982}
+  - {fileID: 4870836007226663441}
   m_Volume: ced73ae220827294a9682a0327048f6c
   m_Pitch: c0dd5e7316aa93f49b0eb0188f8e0e2b
   m_Send: 00000000000000000000000000000000
@@ -68,3 +100,41 @@ AudioMixerSnapshotController:
   m_SnapshotID: a39834959b6853148a4cb548d796f956
   m_FloatValues: {}
   m_TransitionOverrides: {}
+--- !u!243 &4870836007226663441
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SFX'
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 1b8c70daa7f76ed4eaa553c7cf9904b6
+  m_Children: []
+  m_Volume: e62f97627faf3f4469f372a004b87425
+  m_Pitch: 6f865f9b54c3f0b499c632f6f9c2f875
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -8627869865982209796}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &5768416103957944982
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Music
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 2c18cbeb54a646241993708248862b7b
+  m_Children: []
+  m_Volume: 584e125e4d07d9a4a95d71e3810d327f
+  m_Pitch: b46899f1a139ba844b5b22906bcaf832
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -8167707002603913443}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0

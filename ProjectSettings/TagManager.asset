@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - SwingBox
+  - MenuMaster
   layers:
   - Default
   - TransparentFX

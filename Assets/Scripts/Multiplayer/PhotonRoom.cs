@@ -15,7 +15,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     // public bool isGameLoaded;
     public int currectScene;
     public int MultiplayerScene;
-
+    public string IGN;
 
     Player info;
     Player[] photonPlayers;
@@ -75,10 +75,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         myNumberInRoom = playersInRoom;
         PhotonNetwork.NickName = myNumberInRoom.ToString();
     }
-    private void Update()
-    {
-    }
-
 
     void StartGame()
     {

@@ -7,7 +7,7 @@ using Photon.Realtime;
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
-
+   
     public GameObject startBattleButton, LoadningText;
 
 
@@ -26,8 +26,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Conneted to the photon server");
-        startBattleButton.SetActive(true);
-        LoadningText.SetActive(false);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>().SetTrigger("activate");
     }
 
 
@@ -50,7 +49,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.CreateRoom(randomRoomId.ToString(), roomOps);
     }
-
+    public void AddConnectUI()
+    {
+        startBattleButton.SetActive(true);
+        LoadningText.SetActive(false);
+    }
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log(message);
