@@ -36,7 +36,7 @@ public class PlayerCombat : MonoBehaviour
         {
             playerController.movement.animator.SetTrigger("Attack");
             Debug.LogWarning("clicked");
-            if (Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
+            if (playerController.movement.target && Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
                 health.DoDamage(5, 1, playerController.movement.target.GetComponent<PhotonView>());
         }
     }
