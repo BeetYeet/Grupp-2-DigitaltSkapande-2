@@ -112,7 +112,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         controller.animationController.animationScale = Vector2.one;
         if ((pView.IsMine && !controller.offlineMode) || (controller.offlineMode && name == "Current Player"))
         {
-            float dist = Vector3.Distance(transform.position, target.position);
+            float dist;
+            if (target)
+                dist = Vector3.Distance(transform.position, target.position);
+            else
+                dist = 100f;
             const int cutoff = 10;
             if (dist < cutoff)
             {
