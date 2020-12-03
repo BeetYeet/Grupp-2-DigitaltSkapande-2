@@ -6,17 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public PhotonView view;
+    public PhotonView pView;
 
     public PlayerMovement movement;
+    public PlayerAnimationController animationController;
 
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
-        view = GetComponent<PhotonView>();
-        if (!view.IsMine)
+        movement.controller = this;
+
+        animationController = GetComponent<PlayerAnimationController>();
+        animationController.controller = this;
+
+        pView = GetComponent<PhotonView>();
+        if (!pView.IsMine)
         {
-            Destroy(transform.GetChild(0).GetComponent<Camera>());
+            Destroy(GetComponentInChildren<Camera>());
         }
     }
 

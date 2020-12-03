@@ -21,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void FixedUpdate()
     {
-        health.SyncHealth(playerController.view);
+        health.SyncHealth(playerController.pView);
     }
     // Update is called once per frame
     void Update()
@@ -31,10 +31,10 @@ public class PlayerCombat : MonoBehaviour
         if (mouse == null)
             return;
         if (mouse.rightButton.wasReleasedThisFrame)
-            health.DoDamage(3, 1, playerController.view);
+            health.DoDamage(3, 1, playerController.pView);
         if (mouse.leftButton.wasPressedThisFrame)
         {
-            playerController.movement.animator.SetTrigger("Attack");
+            playerController.animationController.animator.SetTrigger("Attack");
             Debug.LogWarning("clicked");
             if (playerController.movement.target && Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
                 health.DoDamage(5, 1, playerController.movement.target.GetComponent<PhotonView>());

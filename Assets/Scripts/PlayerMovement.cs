@@ -9,20 +9,21 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     public float moveSpeed = 3f;
+    [HideInInspector]
+    public PlayerController controller;
+    [HideInInspector]
     public Transform target;
+    [HideInInspector]
     public PhotonView pView;
-    public Animator animator;
-    private Vector2 moveVector;
+    public Vector2 moveVector;
     private ViewBob viewBob;
     private GameObject[] players;
     private PlayerInputActions inputActions;
-    private float smoothAnimX;
-    private float smoothAnimY;
     private bool refreshLook = true;
 
-    void Awake()
+    void Start()
     {
-        pView = GetComponent<PhotonView>();
+        pView = controller.pView;
         if (pView.IsMine)
         {
             name = "Current Player";
@@ -76,7 +77,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         players = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < players.Length; i++)
         {
-            if (players[i].GetComponent<PhotonView>().IsMine != photonView.IsMine)
+            if (players[i].GetComponent<PhotonView>().IsMine != base.photonView.IsMine)
             {
                 target = players[i].transform;
                 players[i].GetComponent<PlayerMovement>().target = transform;
@@ -110,7 +111,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        HandleAnimations(moveVector);
         if (pView.IsMine)
         {
             transform.Translate(moveVector.ToXZ() * moveSpeed * Time.deltaTime);
@@ -133,12 +133,4 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             }
     }
 
-    // NIschlas om du kollar så if(change back) sadge;
-    private void HandleAnimations(Vector3 moveVector)
-    {
-        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y, ref smoothAnimX, .1f);
-        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x, ref smoothAnimY, .1f);
-        animator.SetFloat("Forward", Yvalue);
-        animator.SetFloat("Right", Xvalue);
-    }
 }

@@ -87,7 +87,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene() == scene)
+        if (SceneManager.GetActiveScene() == scene && scene.name == "Fight Scene")
         {
             CreatePlayer();
         }
