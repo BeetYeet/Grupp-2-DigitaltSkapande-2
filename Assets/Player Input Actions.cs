@@ -97,7 +97,13 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Default"",
+            ""bindingGroup"": ""Default"",
+            ""devices"": []
+        }
+    ]
 }");
         // Main Action Map
         m_MainActionMap = asset.FindActionMap("Main Action Map", throwIfNotFound: true);
@@ -180,6 +186,15 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         }
     }
     public MainActionMapActions @MainActionMap => new MainActionMapActions(this);
+    private int m_DefaultSchemeIndex = -1;
+    public InputControlScheme DefaultScheme
+    {
+        get
+        {
+            if (m_DefaultSchemeIndex == -1) m_DefaultSchemeIndex = asset.FindControlSchemeIndex("Default");
+            return asset.controlSchemes[m_DefaultSchemeIndex];
+        }
+    }
     public interface IMainActionMapActions
     {
         void OnMove(InputAction.CallbackContext context);
