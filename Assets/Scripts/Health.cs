@@ -34,9 +34,10 @@ public class Health : MonoBehaviour
     public float startStaggerTime;
     float staggerTime;
     public bool canMove = true;
-    
 
-    
+    [HideInInspector]
+    public PlayerController controller;
+
 
     private void Start()
     {
@@ -44,15 +45,12 @@ public class Health : MonoBehaviour
     }
     public void SyncHealth(PhotonView photonView)
     {
-
-        photonView.RPC("RegenerateHealth", RpcTarget.All);
+        if (!controller.offlineMode)
+            photonView.RPC("RegenerateHealth", RpcTarget.All);
     }
     void FixedUpdate()
     {
-        
         currentHealth = Mathf.Round(currentHealth * 100) / 100;
-
-       
 
         if (isBlocking == true)
         {
@@ -107,9 +105,10 @@ public class Health : MonoBehaviour
         isBlocking = true;
     }
 
-    public void DoDamage(float dmg, float blockMulitpier, PhotonView apponent)
+    public void DoDamage(float dmg, float blockMulitpier, PhotonView opponent)
     {
-        apponent.RPC("TakeDamage", RpcTarget.All, dmg, blockMulitpier);
+        if (!controller.offlineMode)
+            opponent.RPC("TakeDamage", RpcTarget.All, dmg, blockMulitpier);
     }
     private void Stagger()
     {

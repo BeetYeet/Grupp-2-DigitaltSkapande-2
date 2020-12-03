@@ -16,7 +16,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [HideInInspector]
     public PhotonView pView;
     public Vector2 moveVector;
-    private ViewBob viewBob;
+    [HideInInspector]
+    public ViewBob viewBob;
     private GameObject[] players;
     private PlayerInputActions inputActions;
     private bool refreshLook = true;
@@ -24,17 +25,13 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     void Start()
     {
         pView = controller.pView;
-        if (pView.IsMine)
+
+        if ((pView.IsMine && !controller.offlineMode) || (controller.offlineMode && name != "Current Enemy Player"))
         {
-            name = "Current Player";
-            viewBob = GetComponentInChildren<ViewBob>();
             inputActions = new PlayerInputActions();
             inputActions.MainActionMap.Move.performed += Move_performed;
-        }
-        else
-        {
-            name = "Current Enemy Player";
-            Destroy(GetComponentInChildren<PlayerCamera>().gameObject);
+            inputActions.Enable();
+            Debug.Log(name + ": Input Created");
         }
         GetTarget();
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
@@ -74,10 +71,11 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     public void GetTarget()
     {
+        if (target != null) { return; }
         players = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < players.Length; i++)
         {
-            if (players[i].GetComponent<PhotonView>().IsMine != base.photonView.IsMine)
+            if (players[i].GetComponent<PhotonView>().IsMine != photonView.IsMine || (controller.offlineMode && players[i].gameObject != this.gameObject))
             {
                 target = players[i].transform;
                 players[i].GetComponent<PlayerMovement>().target = transform;
@@ -111,14 +109,38 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (pView.IsMine)
+        controller.animationController.animationScale = Vector2.one;
+        if ((pView.IsMine && !controller.offlineMode) || (controller.offlineMode && name == "Current Player"))
         {
-            transform.Translate(moveVector.ToXZ() * moveSpeed * Time.deltaTime);
+            float dist = Vector3.Distance(transform.position, target.position);
+            const int cutoff = 10;
+            if (dist < cutoff)
+            {
+                float forwardFactor = (dist - cutoff / 2) / (cutoff / 2);
+                float rightwardFactor = dist / cutoff;
+                Vector3 movement = moveVector.ToXZ();
+
+                if (moveVector.y > 0)
+                {
+                    movement.Scale(new Vector3(rightwardFactor, 1, forwardFactor));
+                    controller.animationController.animationScale = new Vector2(rightwardFactor, forwardFactor);
+                }
+                else
+                {
+                    movement.Scale(new Vector3(rightwardFactor, 1, 1));
+                    controller.animationController.animationScale = new Vector2(rightwardFactor, 1);
+                }
+
+
+                transform.Translate(movement * moveSpeed * Time.deltaTime);
+            }
+            else
+                transform.Translate(moveVector.ToXZ() * moveSpeed * Time.deltaTime);
             viewBob.moving = moveVector.sqrMagnitude > 0.04f; // deadzone på 0.2 (0.2*0.2=0.04)
             viewBob.moveVectorX = moveVector.x;
         }
 
-        if (PhotonRoom.room.playersInRoom > 1)
+        if (controller.offlineMode || PhotonRoom.room.playersInRoom > 1)
         {
             GetTarget();
         }

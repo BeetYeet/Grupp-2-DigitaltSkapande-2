@@ -9,35 +9,37 @@ using UnityEditor;
 public class PlayerCombat : MonoBehaviour
 {
     public float weaponRange;
-    PlayerController playerController;
+    [HideInInspector]
+    public PlayerController controller;
     Health health;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = GetComponent<Health>();
-        playerController = GetComponent<PlayerController>();
+        health = controller.health;
     }
 
     private void FixedUpdate()
     {
-        health.SyncHealth(playerController.pView);
+        if (!controller.offlineMode)
+            health.SyncHealth(controller.pView);
     }
     // Update is called once per frame
     void Update()
     {
-
-        var mouse = Mouse.current;
+        if (controller.offlineMode && name == "Current Enemy Player")
+            return;
+        Mouse mouse = Mouse.current;
         if (mouse == null)
             return;
         if (mouse.rightButton.wasReleasedThisFrame)
-            health.DoDamage(3, 1, playerController.pView);
+            health.DoDamage(3, 1, controller.pView);
         if (mouse.leftButton.wasPressedThisFrame)
         {
-            playerController.animationController.animator.SetTrigger("Attack");
-            Debug.LogWarning("clicked");
-            if (playerController.movement.target && Vector3.Distance(transform.position, playerController.movement.target.position) <= weaponRange)
-                health.DoDamage(5, 1, playerController.movement.target.GetComponent<PhotonView>());
+            controller.animationController.animator.SetTrigger("Attack");
+            Debug.Log("clicked");
+            if (controller.movement.target && Vector3.Distance(transform.position, controller.movement.target.position) <= weaponRange)
+                health.DoDamage(5, 1, controller.movement.target.GetComponent<PhotonView>());
         }
     }
 }

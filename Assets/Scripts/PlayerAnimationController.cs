@@ -14,6 +14,11 @@ public class PlayerAnimationController : MonoBehaviour
 
     private float smoothAnimX;
     private float smoothAnimY;
+    private float smoothAnimFactor;
+    private float factor;
+
+    [HideInInspector]
+    public Vector2 animationScale = Vector2.one;
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +30,9 @@ public class PlayerAnimationController : MonoBehaviour
     void Update()
     {
 
-        HandleMoveVector(controller.movement.moveVector * controller.movement.moveVector.normalized);
-        HandleBlending(controller.movement.moveVector.magnitude);
+        HandleMoveVector(controller.movement.moveVector.Spherize());
+        factor = Mathf.SmoothDamp(factor, controller.movement.moveVector.magnitude, ref smoothAnimFactor, .05f);
+        HandleBlending(factor);
     }
 
     private void HandleBlending(float magnitude)
@@ -53,9 +59,10 @@ public class PlayerAnimationController : MonoBehaviour
     // NIschlas om du kollar så if(change back) sadge;
     private void HandleMoveVector(Vector3 moveVector)
     {
-        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y, ref smoothAnimX, .1f);
-        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x, ref smoothAnimY, .1f);
-        animator.SetFloat("Forward", Yvalue);
+        Debug.Log(moveVector);
+        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x * animationScale.x, ref smoothAnimX, .1f);
+        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y * animationScale.y, ref smoothAnimY, .1f);
         animator.SetFloat("Right", Xvalue);
+        animator.SetFloat("Forward", Yvalue);
     }
 }
