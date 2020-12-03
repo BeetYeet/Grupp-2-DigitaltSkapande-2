@@ -6,8 +6,8 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IdleWalkMask
-  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Name: WalkMaskIdle
+  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
@@ -16,9 +16,9 @@ AvatarMask:
   - m_Path: joint1/joint2
     m_Weight: 0
   - m_Path: joint1/joint2/joint3
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: joint1/joint2/joint3/joint4
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: joint1/joint2/joint3/joint4/joint5
     m_Weight: 0
   - m_Path: joint1/joint2/joint3/joint4/joint5/joint6
