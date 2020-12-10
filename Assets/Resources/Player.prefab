@@ -197,6 +197,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 4
+  moveVectorUpdateTime: 0.5
   controller: {fileID: 0}
   animator: {fileID: 0}
   animationScale: {x: 1, y: 1}
