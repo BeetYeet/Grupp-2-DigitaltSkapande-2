@@ -16,6 +16,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int currectScene;
     public int MultiplayerScene;
     public string IGN;
+    public GameObject PlayerPrefab;
 
     Player info;
     Player[] photonPlayers;
@@ -91,6 +92,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private void CreatePlayer()
     {
         // needs prefab name
-        PhotonNetwork.Instantiate("Player", transform.position, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate(PlayerPrefab.name, transform.position, Quaternion.identity, 0);
     }
 }
