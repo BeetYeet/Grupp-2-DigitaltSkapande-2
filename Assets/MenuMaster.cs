@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Audio;
 
 public class MenuMaster : MonoBehaviour
@@ -26,6 +27,7 @@ public class MenuMaster : MonoBehaviour
         audioSource.outputAudioMixerGroup = mixerGroupSFX;
         audioSource.PlayOneShot(SFX);
     }
+    
     public void enableOptionsMenu()
     {
         mainMenuCanvas.enabled = false;
