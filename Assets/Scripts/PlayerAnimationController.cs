@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     public Gradient attackIdleBlend;
+    [Range(0,1)]
+    public float moveVectorUpdateTime = .5f;
 
     [HideInInspector]
     public PlayerController controller;
@@ -37,9 +39,13 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void HandleBlending(float magnitude)
     {
+        float fightingState = GetFightingState();
+
         // Set the idle weight
-        animator.SetLayerWeight(1, Mathf.Clamp01(1 - magnitude - GetFightingState()));
-        animator.SetLayerWeight(2, magnitude);
+        animator.SetLayerWeight(1, Mathf.Clamp01(1 - magnitude - fightingState));
+
+        // Set the locomotion (movement) weight
+        animator.SetLayerWeight(2, Mathf.Clamp01(magnitude - fightingState));
     }
 
     private float GetFightingState()
@@ -60,8 +66,8 @@ public class PlayerAnimationController : MonoBehaviour
     private void HandleMoveVector(Vector3 moveVector)
     {
         Debug.Log(moveVector);
-        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x * animationScale.x, ref smoothAnimX, .1f);
-        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y * animationScale.y, ref smoothAnimY, .1f);
+        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x * animationScale.x, ref smoothAnimX, moveVectorUpdateTime);
+        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y * animationScale.y, ref smoothAnimY, moveVectorUpdateTime);
         animator.SetFloat("Right", Xvalue);
         animator.SetFloat("Forward", Yvalue);
     }
