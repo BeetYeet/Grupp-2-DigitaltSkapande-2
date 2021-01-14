@@ -20,6 +20,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "DebugNum1",
+                    "type": "Button",
+                    "id": "6d513710-cdb0-42e1-9cb2-a9e96a6ace13",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DebugNum2",
+                    "type": "Button",
+                    "id": "8c841030-fa64-4622-be75-85e18b212482",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DebugNum4",
+                    "type": "Button",
+                    "id": "dee6d50d-ef78-4157-8dd5-1df79d4ecb59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DebugNum5",
+                    "type": "Button",
+                    "id": "78ab837c-2e41-43e4-8267-e39922b979bd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -97,6 +129,50 @@
                     "processors": "",
                     "groups": "Default",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45c031b9-6115-4f4d-852a-77b2eac85e1b",
+                    "path": "<Keyboard>/numpad1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugNum1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d840fd7b-d797-4aad-a392-3b81e147c273",
+                    "path": "<Keyboard>/numpad2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugNum2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "157c3d1a-2694-41a9-8449-97452eb4e10a",
+                    "path": "<Keyboard>/numpad4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugNum4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d7f90b1-2063-4eee-8db3-e758bf84d709",
+                    "path": "<Keyboard>/numpad5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugNum5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

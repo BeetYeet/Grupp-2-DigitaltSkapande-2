@@ -31,12 +31,15 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnEnable()
     {
-        input.Enable();
+        if (input != null)
+            input.Enable();
     }
     private void OnDisable()
     {
-        input.Disable();
+        if (input != null)
+            input.Disable();
     }
+
 
     private void FixedUpdate()
     {
