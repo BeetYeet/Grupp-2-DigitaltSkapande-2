@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private PlayerInputActions inputActions;
     private bool refreshLook = true;
 
+    [Header("Close Quarters Cutoff")]
+    public float cutoff = 5;
+    public float cutoffRatio = .75f;
+
     void Start()
     {
         pView = controller.pView;
@@ -117,10 +121,9 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
                 dist = Vector3.Distance(transform.position, target.position);
             else
                 dist = 100f;
-            const int cutoff = 10;
             if (dist < cutoff)
             {
-                float forwardFactor = (dist - cutoff / 2) / (cutoff / 2);
+                float forwardFactor = (dist - cutoff * cutoffRatio) / (cutoff - cutoff * cutoffRatio);
                 float rightwardFactor = dist / cutoff;
                 Vector3 movement = moveVector.ToXZ();
 
@@ -140,7 +143,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             }
             else
                 transform.Translate(moveVector.ToXZ() * moveSpeed * Time.deltaTime);
-            viewBob.moving = moveVector.sqrMagnitude > 0.04f; // deadzone på 0.2 (0.2*0.2=0.04)
+            viewBob.moving = (moveVector * controller.animationController.animationScale).sqrMagnitude > 0.04f; // deadzone på 0.2 (0.2*0.2=0.04)
             viewBob.moveVectorX = moveVector.x;
         }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     public Gradient attackIdleBlend;
-    [Range(0,1)]
+    [Range(0, 1)]
     public float moveVectorUpdateTime = .5f;
 
     [HideInInspector]
@@ -31,9 +31,8 @@ public class PlayerAnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         HandleMoveVector(controller.movement.moveVector.Spherize());
-        factor = Mathf.SmoothDamp(factor, controller.movement.moveVector.magnitude, ref smoothAnimFactor, .05f);
+        factor = Mathf.SmoothDamp(factor, (controller.movement.moveVector * animationScale).magnitude, ref smoothAnimFactor, .05f);
         HandleBlending(factor);
     }
 
@@ -65,9 +64,9 @@ public class PlayerAnimationController : MonoBehaviour
     // NIschlas om du kollar så if(change back) sadge;
     private void HandleMoveVector(Vector3 moveVector)
     {
-        Debug.Log(moveVector);
-        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x * animationScale.x, ref smoothAnimX, moveVectorUpdateTime);
-        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y * animationScale.y, ref smoothAnimY, moveVectorUpdateTime);
+        //Debug.Log(moveVector + "\n" + animationScale);
+        float Xvalue = Mathf.SmoothDamp(animator.GetFloat("Right"), moveVector.x, ref smoothAnimX, moveVectorUpdateTime) * animationScale.x;
+        float Yvalue = Mathf.SmoothDamp(animator.GetFloat("Forward"), moveVector.y, ref smoothAnimY, moveVectorUpdateTime) * animationScale.y;
         animator.SetFloat("Right", Xvalue);
         animator.SetFloat("Forward", Yvalue);
     }

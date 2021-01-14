@@ -25,6 +25,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ca8ec1c-0d2d-466a-a3eb-6a5db7618536"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -34,7 +42,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -56,7 +64,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -67,7 +75,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -78,7 +86,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -89,10 +97,21 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Default"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b10fb2c9-bbf7-44c8-98f5-c6721ce10a7c"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Default"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -108,6 +127,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         // Main Action Map
         m_MainActionMap = asset.FindActionMap("Main Action Map", throwIfNotFound: true);
         m_MainActionMap_Move = m_MainActionMap.FindAction("Move", throwIfNotFound: true);
+        m_MainActionMap_Attack = m_MainActionMap.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -158,11 +178,13 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_MainActionMap;
     private IMainActionMapActions m_MainActionMapActionsCallbackInterface;
     private readonly InputAction m_MainActionMap_Move;
+    private readonly InputAction m_MainActionMap_Attack;
     public struct MainActionMapActions
     {
         private @PlayerInputActions m_Wrapper;
         public MainActionMapActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_MainActionMap_Move;
+        public InputAction @Attack => m_Wrapper.m_MainActionMap_Attack;
         public InputActionMap Get() { return m_Wrapper.m_MainActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -175,6 +197,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnMove;
+                @Attack.started -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_MainActionMapActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_MainActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -182,6 +207,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -198,5 +226,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     public interface IMainActionMapActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

@@ -75,6 +75,8 @@ MonoBehaviour:
   pView: {fileID: 0}
   moveVector: {x: 0, y: 0}
   viewBob: {fileID: 0}
+  cutoff: 5
+  cutoffRatio: 0.75
 --- !u!114 &3965749193331808024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,8 +458,8 @@ MonoBehaviour:
   movementSmoothness: 0.2
   rotationSpeed: 5
   lookaheadPos: 0.009
-  lookaheadRot: 0.06
-  lookaheadRotDistanceCutoff: 2
+  lookaheadRot: 0.05
+  lookaheadRotDistanceCutoff: 5
   followScale: 0.1
   bobScale: {x: 0.3, y: 0.7}
   degreesPerSecond: 230
