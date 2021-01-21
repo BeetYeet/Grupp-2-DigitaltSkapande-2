@@ -491,6 +491,10 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 2
     LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
 --- !u!1001 &576529897186402936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -569,7 +573,7 @@ PrefabInstance:
     - target: {fileID: -3901992563441801604, guid: ab0a8cb0c3d29f24fb55a89766fc1496, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aca65ed91c2d1804aa134e23ac49df2f, type: 2}
+      objectReference: {fileID: 2100000, guid: dfce58d3d2ec8374888286d5bcc11ac2, type: 2}
     - target: {fileID: -644967731239837832, guid: ab0a8cb0c3d29f24fb55a89766fc1496, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.00448
@@ -678,7 +682,7 @@ PrefabInstance:
     - target: {fileID: -1842764907686086066, guid: 04dc725e729efa4419cdda5e1e216cb4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3eaffdb9d6fba5c47a92f18aa8cb0569, type: 2}
+      objectReference: {fileID: 2100000, guid: 4e18b7412bedf134b9ca0d5a046ed88a, type: 2}
     - target: {fileID: 919132149155446097, guid: 04dc725e729efa4419cdda5e1e216cb4, type: 3}
       propertyPath: m_Name
       value: main_character_dennis
