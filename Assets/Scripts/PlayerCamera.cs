@@ -10,7 +10,7 @@ public class PlayerCamera : MonoBehaviour
     public float rotationSpeed = 5f;
     public float lookaheadPos = 2;
     public float lookaheadRot = 2;
-    public float lookaheadRotDistanceCutoff = 2f;
+    public float lookaheadRotDistanceCutoff = 5f;
 
     [Header("View Bob")]
     public float followScale = 0.1f;

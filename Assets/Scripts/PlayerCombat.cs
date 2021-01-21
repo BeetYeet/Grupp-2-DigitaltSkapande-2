@@ -12,12 +12,34 @@ public class PlayerCombat : MonoBehaviour
     [HideInInspector]
     public PlayerController controller;
     Health health;
+    PlayerInputActions input;
+    bool attackedThisFrame = false;
 
     // Start is called before the first frame update
     void Start()
     {
         health = controller.health;
+        input = new PlayerInputActions();
+        input.Enable();
+        input.MainActionMap.Attack.performed += Attack_performed;
     }
+
+    private void Attack_performed(InputAction.CallbackContext obj)
+    {
+        attackedThisFrame = true;
+    }
+
+    private void OnEnable()
+    {
+        if (input != null)
+            input.Enable();
+    }
+    private void OnDisable()
+    {
+        if (input != null)
+            input.Disable();
+    }
+
 
     private void FixedUpdate()
     {
@@ -34,8 +56,9 @@ public class PlayerCombat : MonoBehaviour
             return;
         if (mouse.rightButton.wasReleasedThisFrame)
             health.DoDamage(3, 1, controller.pView);
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (mouse.leftButton.wasPressedThisFrame || attackedThisFrame)
         {
+            attackedThisFrame = false;
             controller.animationController.animator.SetTrigger("Attack");
             Debug.Log("clicked");
             if (controller.movement.target && Vector3.Distance(transform.position, controller.movement.target.position) <= weaponRange)
