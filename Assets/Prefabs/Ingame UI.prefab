@@ -619,7 +619,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2.53, y: 2.26}
-  m_SizeDelta: {x: 3.432341, y: 0.83225346}
+  m_SizeDelta: {x: 3.3677888, y: 0.4022473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7675197029408171247
 CanvasRenderer:
@@ -753,7 +753,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -2.5, y: 2.26}
-  m_SizeDelta: {x: 3.327499, y: 0.83225346}
+  m_SizeDelta: {x: 3.3059974, y: 0.40224612}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7675197029722630601
 CanvasRenderer:
@@ -783,7 +783,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Titan82
+  m_text: Allcapstotest
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3af24472aa7f2c044be173578f48a9db, type: 2}
   m_sharedMaterial: {fileID: -8113435075486172766, guid: 3af24472aa7f2c044be173578f48a9db, type: 2}
@@ -938,7 +938,7 @@ Canvas:
   m_GameObject: {fileID: 7675197030931040468}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 281d24a9a76d2854d98418e980d4b435, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7de6cc0ef11391843a8bc41f5a58174f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

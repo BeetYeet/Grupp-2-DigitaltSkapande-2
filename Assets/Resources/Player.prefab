@@ -128,10 +128,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 10
-  startHealth: 10
+  maxHealth: 10
   regeneratableHealth: 0
   regenHealthTickDown: 0.5
   regeneratableHealthMultiplier: 0.15
+  currentGuard: 0
+  maxGuard: 5
   timeUntilRegenStart: 0
   blockRegenSpeed: 0.5
   blockDamageUntilStagger: 10
@@ -143,6 +145,7 @@ MonoBehaviour:
   startStaggerTime: 0
   canMove: 1
   controller: {fileID: 0}
+  thisPlayersUI: {fileID: 0}
 --- !u!114 &-1727858728183793619
 MonoBehaviour:
   m_ObjectHideFlags: 0

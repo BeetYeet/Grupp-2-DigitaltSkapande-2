@@ -182,10 +182,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4522761482691381348, guid: 6c5bbdf42ad47d746a7211830eb1d009, type: 3}
-      propertyPath: lookaheadRotDistanceCutoff
-      value: 4.08
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c5bbdf42ad47d746a7211830eb1d009, type: 3}
 --- !u!1 &116285947

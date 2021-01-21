@@ -11,11 +11,15 @@ public class Health : MonoBehaviour
 {
     [Header("Healthbar")]
     public float currentHealth;
-    public float startHealth = 10;
+    public float maxHealth = 10;
 
     public float regeneratableHealth;
     public float regenHealthTickDown = 0.5f;
     public float regeneratableHealthMultiplier = 0.15f;
+
+    [Header("Guardbar")]
+    public float currentGuard;
+    public float maxGuard = 5.0f;
 
     [Header("Blocking")]
     public float timeUntilRegenStart;
@@ -37,17 +41,54 @@ public class Health : MonoBehaviour
 
     [HideInInspector]
     public PlayerController controller;
+    public PlayerUIDataDisplay thisPlayersUI;
 
+    private PhotonView photonView;
 
     private void Start()
     {
-        currentHealth = startHealth;
+        // start at max
+        currentHealth = maxHealth;
+        currentGuard = maxGuard;
+
+        photonView = GetComponent<PhotonView>();
     }
     public void SyncHealth(PhotonView photonView)
     {
         if (!controller.offlineMode)
             photonView.RPC("RegenerateHealth", RpcTarget.All);
     }
+
+    private void Update()
+    {
+        // if we have no UI, look for ours
+        if (thisPlayersUI == null)
+        {
+            PlayerUIDataDisplay[] displays = FindObjectsOfType<PlayerUIDataDisplay>();
+            foreach (var display in displays)
+            {
+
+                if (photonView.IsMine && display.isLocal)
+                {
+                    thisPlayersUI = display;
+                    break;
+                }
+                if (!photonView.IsMine && !display.isLocal)
+                {
+                    thisPlayersUI = display;
+                    break;
+                }
+            }
+        }
+
+        if (thisPlayersUI)
+        {
+            // update values
+            thisPlayersUI.valueHP = currentHealth / maxHealth;
+            thisPlayersUI.valueGuard = currentGuard / maxGuard;
+        }
+    }
+
     void FixedUpdate()
     {
         currentHealth = Mathf.Round(currentHealth * 100) / 100;

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerUIDataDisplay : MonoBehaviour
 {
+    [Header("Is this the local healthbar or the enemies?")]
+    public bool isLocal = true;
+
     [Header("Resource Bars")]
     public Image barHP;
     public Image barGuard;
