@@ -16,6 +16,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public int currectScene;
     public int MultiplayerScene;
     public string IGN;
+    public Vector2Int IGN_limit;
     public GameObject PlayerPrefab;
 
     Player info;
@@ -88,6 +89,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             CreatePlayer();
         }
+    }
+    public string TruncateAtWord(string value, int length)
+    {
+        
+        if (value.Length < IGN_limit.y || value.IndexOf(" ", IGN_limit.y) == -1)
+            return value;
+
+        return value.Substring(IGN_limit.x, value.IndexOf(" ", IGN_limit.y));
     }
     private void CreatePlayer()
     {

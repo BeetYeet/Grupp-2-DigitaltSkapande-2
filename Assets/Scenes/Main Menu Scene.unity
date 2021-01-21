@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2035111234}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.15350306, g: 0.19020152, b: 0.25166968, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1205,6 +1205,7 @@ MonoBehaviour:
   currectScene: 0
   MultiplayerScene: 1
   IGN: 
+  IGN_limit: {x: 3, y: 12}
   PlayerPrefab: {fileID: 846902016336743440, guid: 6c5bbdf42ad47d746a7211830eb1d009, type: 3}
   playersInRoom: 0
   myNumberInRoom: 0
