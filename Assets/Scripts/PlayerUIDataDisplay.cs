@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,6 +70,12 @@ public class PlayerUIDataDisplay : MonoBehaviour
 
     void Start()
     {
+        var view = GetComponentInParent<PhotonView>();
+        if (view && view.IsMine)
+        {
+            Destroy(transform.parent.parent.gameObject);
+            return;
+        }
         if (!(barGuard && barHP && barHPRecovered && barHPLost && barGuardLost))
         {
             Debug.LogError("Player UI Bars Unassigned!");

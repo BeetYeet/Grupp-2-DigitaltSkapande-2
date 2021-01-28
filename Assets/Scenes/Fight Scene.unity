@@ -701,6 +701,10 @@ PrefabInstance:
       propertyPath: displayDecayHPRecovered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4528755096542591608, guid: d2b79f82eede23d4ab8ed45611060895, type: 3}
+      propertyPath: isLocal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7675197030931040456, guid: d2b79f82eede23d4ab8ed45611060895, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

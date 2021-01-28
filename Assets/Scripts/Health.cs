@@ -65,15 +65,10 @@ public class Health : MonoBehaviour
         if (thisPlayersUI == null)
         {
             PlayerUIDataDisplay[] displays = FindObjectsOfType<PlayerUIDataDisplay>();
+            Debug.Log(displays.Length);
             foreach (var display in displays)
             {
-
-                if (photonView.IsMine && display.isLocal)
-                {
-                    thisPlayersUI = display;
-                    break;
-                }
-                if (!photonView.IsMine && !display.isLocal)
+                if (photonView.IsMine == display.isLocal)
                 {
                     thisPlayersUI = display;
                     break;
