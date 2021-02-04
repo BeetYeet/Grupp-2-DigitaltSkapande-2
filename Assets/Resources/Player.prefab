@@ -259,6 +259,9 @@ MonoBehaviour:
   canMove: 1
   controller: {fileID: 0}
   thisPlayersUI: {fileID: 0}
+  bloodEffectMaterial: {fileID: 2100000, guid: 4e18b7412bedf134b9ca0d5a046ed88a, type: 2}
+  minBloodEffect: 0.2
+  maxBloodEffect: 0.6
 --- !u!114 &-1727858728183793619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,9 +643,9 @@ MonoBehaviour:
     LayerIndex: 0
   - SynchronizeType: 2
     LayerIndex: 1
-  - SynchronizeType: 0
+  - SynchronizeType: 2
     LayerIndex: 2
-  - SynchronizeType: 0
+  - SynchronizeType: 2
     LayerIndex: 3
 --- !u!1001 &576529897186402936
 PrefabInstance:
