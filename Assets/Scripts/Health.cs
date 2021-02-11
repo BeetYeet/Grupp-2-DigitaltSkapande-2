@@ -43,6 +43,10 @@ public class Health : MonoBehaviour
     public PlayerController controller;
     public PlayerUIDataDisplay thisPlayersUI;
 
+    public Material bloodEffectMaterial;
+    public float minBloodEffect = 0.2f;
+    public float maxBloodEffect = 0.6f;
+
     private PhotonView photonView;
 
     private void Start()
@@ -81,6 +85,12 @@ public class Health : MonoBehaviour
             // update values
             thisPlayersUI.valueHP = currentHealth / maxHealth;
             thisPlayersUI.valueGuard = currentGuard / maxGuard;
+        }
+
+        if (bloodEffectMaterial)
+        {
+            float val = minBloodEffect + (maxBloodEffect - minBloodEffect) * (1 - (currentHealth / maxHealth));
+            bloodEffectMaterial.SetFloat("Vector1_45EB1EA8", val);
         }
     }
 
