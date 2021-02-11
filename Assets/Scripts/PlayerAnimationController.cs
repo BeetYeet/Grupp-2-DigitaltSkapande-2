@@ -41,7 +41,7 @@ public class PlayerAnimationController : MonoBehaviour
         float fightingState = GetFightingState();
 
         // Set the idle weight
-        animator.SetLayerWeight(1, Mathf.Clamp01(1 - magnitude - fightingState));
+        animator.SetLayerWeight(1, 1f);//Mathf.Clamp01(1 - magnitude - fightingState));
 
         // Set the locomotion (movement) weight
         animator.SetLayerWeight(2, Mathf.Clamp01(magnitude - fightingState));
