@@ -126,7 +126,9 @@ public class Health : MonoBehaviour
 
         // Regenerates Health
         if (regeneratableHealth > currentHealth)
-            regeneratableHealth -= regenHealthTickDown * (float)PhotonNetwork.Time;
+        {
+            regeneratableHealth -= regenHealthTickDown * Time.fixedDeltaTime;
+        }
         else
             regeneratableHealth = currentHealth;
 
@@ -163,7 +165,9 @@ public class Health : MonoBehaviour
         if (currentHealth < regeneratableHealth)
         {
             float missingHealth = regeneratableHealth - currentHealth;
-            currentHealth += regeneratableHealthMultiplier * missingHealth;
+            float healthDiff = regeneratableHealthMultiplier * missingHealth * 0.001f;
+            currentHealth += healthDiff;
+            regeneratableHealth -= healthDiff;
         }
     }
     [PunRPC]
