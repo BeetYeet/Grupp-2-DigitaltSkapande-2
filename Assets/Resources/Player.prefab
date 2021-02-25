@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRange: 5
   controller: {fileID: 0}
+  basicAttackCooldown: 1.5
 --- !u!114 &-1040955000580444661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +474,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   volumeAnchorOverride: {fileID: 0}
-  antialiasing: 0
+  antialiasing: 1
   SMAAQuality: 2
   dithering: 0
   stopNaNs: 0
