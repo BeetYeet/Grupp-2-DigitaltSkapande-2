@@ -13,7 +13,7 @@ public class SwordCompiler : MonoBehaviour
     {
         damage = blades[bladeId].damage + guards[guardId].damage + handles[handleId].damage;
         range = blades[bladeId].range + guards[guardId].range + handles[handleId].range;
-        timeBetweenAttacks = blades[bladeId].ba + guards[guardId].damage + handles[handleId].damage;
+        timeBetweenAttacks = blades[bladeId].damage + guards[guardId].damage + handles[handleId].damage;
         damage = blades[bladeId].damage + guards[guardId].damage + handles[handleId].damage;
     }
 }
