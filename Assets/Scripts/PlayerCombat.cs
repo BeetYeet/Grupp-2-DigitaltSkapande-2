@@ -9,6 +9,7 @@ using UnityEditor;
 public class PlayerCombat : MonoBehaviour
 {
     public float weaponRange;
+    public float weaponDamage;
     [HideInInspector]
     public PlayerController controller;
     Health health;

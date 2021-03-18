@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponRange: 5
+  weaponDamage: 5
   controller: {fileID: 0}
   basicAttackCooldown: 1.5
 --- !u!114 &-1040955000580444661
