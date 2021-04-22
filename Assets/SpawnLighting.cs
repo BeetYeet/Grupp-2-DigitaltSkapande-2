@@ -26,5 +26,6 @@ public class SpawnLighting : MonoBehaviour
     private void InitializeLighting(GameObject lighting)
     {
         GameObject _lighting = lighting;
+
     }
 }
