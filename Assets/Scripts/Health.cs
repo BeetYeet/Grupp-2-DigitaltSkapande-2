@@ -43,6 +43,10 @@ public class Health : MonoBehaviour
     public PlayerController controller;
     public PlayerUIDataDisplay thisPlayersUI;
 
+    public Material bloodEffectMaterial;
+    public float minBloodEffect = 0.2f;
+    public float maxBloodEffect = 0.6f;
+
     private PhotonView photonView;
 
     private void Start()
@@ -81,6 +85,12 @@ public class Health : MonoBehaviour
             // update values
             thisPlayersUI.valueHP = currentHealth / maxHealth;
             thisPlayersUI.valueGuard = currentGuard / maxGuard;
+        }
+
+        if (bloodEffectMaterial)
+        {
+            float val = minBloodEffect + (maxBloodEffect - minBloodEffect) * (1 - (currentHealth / maxHealth));
+            bloodEffectMaterial.SetFloat("Vector1_45EB1EA8", val);
         }
     }
 
@@ -126,7 +136,9 @@ public class Health : MonoBehaviour
 
         // Regenerates Health
         if (regeneratableHealth > currentHealth)
-            regeneratableHealth -= regenHealthTickDown * (float)PhotonNetwork.Time;
+        {
+            regeneratableHealth -= regenHealthTickDown * Time.fixedDeltaTime;
+        }
         else
             regeneratableHealth = currentHealth;
 
@@ -163,7 +175,9 @@ public class Health : MonoBehaviour
         if (currentHealth < regeneratableHealth)
         {
             float missingHealth = regeneratableHealth - currentHealth;
-            currentHealth += regeneratableHealthMultiplier * missingHealth;
+            float healthDiff = regeneratableHealthMultiplier * missingHealth * 0.001f;
+            currentHealth += healthDiff;
+            regeneratableHealth -= healthDiff;
         }
     }
     [PunRPC]

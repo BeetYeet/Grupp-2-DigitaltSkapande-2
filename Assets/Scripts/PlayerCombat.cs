@@ -9,11 +9,21 @@ using UnityEditor;
 public class PlayerCombat : MonoBehaviour
 {
     public float weaponRange;
+    public float weaponDamage;
     [HideInInspector]
     public PlayerController controller;
     Health health;
     PlayerInputActions input;
-    bool attackedThisFrame = false;
+
+    /// <summary>
+    /// the cooldown of the basic attack
+    /// </summary>
+    public float basicAttackCooldown;
+
+    /// <summary>
+    /// the time left untill the next attack is possible
+    /// </summary>
+    private float attackCooldown = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +36,12 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attack_performed(InputAction.CallbackContext obj)
     {
-        attackedThisFrame = true;
+        if (attackCooldown <= 0)
+        {
+            // attack ready
+            PerformAttack();
+            attackCooldown = basicAttackCooldown;
+        }
     }
 
     private void OnEnable()
@@ -51,18 +66,19 @@ public class PlayerCombat : MonoBehaviour
     {
         if (controller.offlineMode && name == "Current Enemy Player")
             return;
-        Mouse mouse = Mouse.current;
-        if (mouse == null)
-            return;
-        if (mouse.rightButton.wasReleasedThisFrame)
-            health.DoDamage(3, 1, controller.pView);
-        if (mouse.leftButton.wasPressedThisFrame || attackedThisFrame)
+
+        if (attackCooldown > 0)
         {
-            attackedThisFrame = false;
-            controller.animationController.animator.SetTrigger("Attack");
-            Debug.Log("clicked");
-            if (controller.movement.target && Vector3.Distance(transform.position, controller.movement.target.position) <= weaponRange)
-                health.DoDamage(5, 1, controller.movement.target.GetComponent<PhotonView>());
+            attackCooldown -= Time.deltaTime;
+            if (attackCooldown < 0)
+                attackCooldown = 0;
         }
+    }
+
+    private void PerformAttack()
+    {
+        controller.animationController.animator.SetTrigger("Attack");
+        if (controller.movement.target && Vector3.Distance(transform.position, controller.movement.target.position) <= weaponRange)
+            health.DoDamage(5, 1, controller.movement.target.GetComponent<PhotonView>());
     }
 }
