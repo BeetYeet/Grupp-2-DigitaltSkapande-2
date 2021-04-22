@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -77,7 +78,14 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         myNumberInRoom = playersInRoom;
         PhotonNetwork.NickName = myNumberInRoom.ToString();
     }
-
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "Fight Scene")
+        {
+            if (Keyboard.current.tKey.wasPressedThisFrame)
+                CreatePlayer();
+        }
+    }
     void StartGame()
     {
         Debug.Log("Loading Level");
@@ -92,7 +100,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     }
     public string TruncateAtWord(string value, int length)
     {
-        
+
         if (value.Length < IGN_limit.y || value.IndexOf(" ", IGN_limit.y) == -1)
             return value;
 
