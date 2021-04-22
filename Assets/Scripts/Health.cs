@@ -156,7 +156,7 @@ public class Health : MonoBehaviour
     public void DoDamage(float dmg, float blockMulitpier, PhotonView opponent)
     {
         if (!controller.offlineMode)
-            opponent.RPC("TakeDamage", RpcTarget.All, dmg, blockMulitpier);
+            opponent.RPC("TakeDamage", RpcTarget.Others, dmg, blockMulitpier);
     }
     private void Stagger()
     {
