@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -15,13 +17,18 @@ public class GameController : MonoBehaviour
         instance = this;
     }
 
+    public static void RefreshPlayers()
+    {
+        instance.players = GameObject.FindGameObjectsWithTag("Player").ToList();
+    }
+
     private void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
 }

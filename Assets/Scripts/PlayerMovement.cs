@@ -11,20 +11,20 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public float moveSpeed = 3f;
     [HideInInspector]
     public PlayerController controller;
-    [HideInInspector]
-    public Transform target;
+    private Transform target;
     [HideInInspector]
     public PhotonView pView;
     public Vector2 moveVector;
     [HideInInspector]
     public ViewBob viewBob;
-    private GameObject[] players;
     private PlayerInputActions inputActions;
     private bool refreshLook = true;
 
     [Header("Close Quarters Cutoff")]
     public float cutoff = 5;
     public float cutoffRatio = .75f;
+
+    public Transform Target { get => target; set => target = value; }
 
     void Start()
     {
@@ -50,17 +50,14 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     public IEnumerator AquireTarget()
     {
         float timer = 0f;
-        while (!target && timer < 10f)
+        while (target == null && timer < 10f)
         {
             yield return new WaitForSecondsRealtime(0.5f);
             timer += 0.5f;
             GetTarget();
         }
-        if (timer >= 10f)
-        {
-            // Timed out, not good :(
-            Debug.LogError(name + " couldn't find another player, something is really wrong...");
-        }
+        // Timed out, not good :(
+        Debug.LogError(name + " couldn't find another player, something is really wrong...");
     }
 
     private void Move_performed(InputAction.CallbackContext obj)
@@ -75,20 +72,33 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     public void GetTarget()
     {
-        if (target != null) { return; }
-        players = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < players.Length; i++)
+        if (target != null)
         {
-            if (players[i].GetComponent<PhotonView>().IsMine != photonView.IsMine || (controller.offlineMode && players[i].gameObject != this.gameObject))
-            {
-                target = players[i].transform;
-                players[i].GetComponent<PlayerMovement>().target = transform;
-                Debug.Log(name + ": Found enemy");
-                refreshLook = true;
-                return;
-            }
+            Debug.Log(name + ": already have target");
+            return;
         }
-        Debug.Log(name + ": No enemy found");
+        GameController.RefreshPlayers();
+        List<GameObject> players = GameController.instance.players;
+        if (players.Count != 2)
+        {
+            Debug.Log(name + ": no enemy found - wrong player count");
+            return;
+        }
+        if (this.gameObject == players[0])
+        {
+            // this is player 0
+            target = players[1].transform;
+            players[1].GetComponent<PlayerMovement>().target = this.transform;
+        }
+        else
+        {
+            // this is player 1
+            target = players[0].transform;
+            players[0].GetComponent<PlayerMovement>().target = this.transform;
+        }
+        players[0].GetComponent<PlayerMovement>().refreshLook = true;
+        players[1].GetComponent<PlayerMovement>().refreshLook = true;
+        Debug.Log(name + ": enemy found");
     }
 
 
@@ -153,7 +163,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         }
 
         if (refreshLook)
-            if (target)
+            if (target != null)
                 transform.LookAt(target, Vector3.up);
             else
             {
