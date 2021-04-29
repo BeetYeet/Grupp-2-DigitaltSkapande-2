@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e368297bc019d449bf023b23c0c7e1f, type: 3}
-  m_Name: Tank
+  m_Name: Rapier
   m_EditorClassIdentifier: 
-  PartName: Fat Man's skin
-  range: 0
-  damage: 0
-  basicAttackCooldown: 0.2
-  MaxHealthBonus: 20
+  PartName: Rapier
+  range: 5
+  damage: 2
+  basicAttackCooldown: 0.75
+  MaxHealthBonus: 0
   armor: 0
   critChance: 0
   critExtraDamage: 0
