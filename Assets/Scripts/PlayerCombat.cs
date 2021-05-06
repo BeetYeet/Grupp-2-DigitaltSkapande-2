@@ -78,7 +78,7 @@ public class PlayerCombat : MonoBehaviour
     private void PerformAttack()
     {
         controller.animationController.animator.SetTrigger("Attack");
-        if (controller.movement.target && Vector3.Distance(transform.position, controller.movement.target.position) <= weaponRange)
-            health.DoDamage(5, 1, controller.movement.target.GetComponent<PhotonView>());
+        if (controller.movement.Target && Vector3.Distance(transform.position, controller.movement.Target.position) <= weaponRange)
+            health.DoDamage(5, 1, controller.movement.Target.GetComponent<PhotonView>());
     }
 }

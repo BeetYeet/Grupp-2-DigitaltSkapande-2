@@ -56,9 +56,9 @@ public class PlayerCamera : MonoBehaviour
             Quaternion.FromToRotation(lastPlayerRot * Vector3.forward, player.rotation * Vector3.forward).ToAngleAxis(out angle, out axis);
             angle *= lookaheadRot / Time.deltaTime;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            if (playerMovement.target != null)
+            if (playerMovement.Target != null)
             {
-                float dist = Vector3.Distance(player.position, playerMovement.target.position);
+                float dist = Vector3.Distance(player.position, playerMovement.Target.position);
                 if (dist > lookaheadRotDistanceCutoff)
                     angle /= dist;
                 else
