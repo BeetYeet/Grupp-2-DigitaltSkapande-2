@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using Photon.Realtime;
 using Photon.Pun.UtilityScripts;
@@ -9,6 +10,10 @@ using Photon;
 
 public class Health : MonoBehaviour
 {
+    [Header("audio")]
+    public AudioSource source;
+    public AudioClip[] grunts;
+    public AudioClip stabed;
     [Header("Healthbar")]
     public float currentHealth;
     public float maxHealth = 10;
@@ -164,6 +169,7 @@ public class Health : MonoBehaviour
             else
             {
                 Debug.Log(opponent);
+                source.PlayOneShot(stabed);
                 opponent.RPC("TakeDamage", RpcTarget.All, dmg, blockMulitpier);
             }
         }

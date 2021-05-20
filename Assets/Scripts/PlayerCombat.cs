@@ -77,6 +77,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformAttack()
     {
+        health.source.PlayOneShot(health.grunts[Random.Range(0, 2)]);
         controller.animationController.animator.SetTrigger("Attack");
         if (controller.movement.Target && Vector3.Distance(transform.position, controller.movement.Target.position) <= weaponRange)
             health.DoDamage(5, 1, controller.movement.Target.GetComponent<PhotonView>());
