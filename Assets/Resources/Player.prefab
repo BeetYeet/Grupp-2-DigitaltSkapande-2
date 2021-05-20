@@ -184,7 +184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   controller: {fileID: 0}
-  target: {fileID: 0}
   pView: {fileID: 0}
   moveVector: {x: 0, y: 0}
   viewBob: {fileID: 0}
